@@ -2,6 +2,7 @@
   "name": "ngb-input",
   "version": "0.0.1-alpha",
   "scripts": {
+    "postinstall": "npm run build",
     "ng": "ng",
     "start": "ng serve",
     "build": "yarn ng build ngb-input",
