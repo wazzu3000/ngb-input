@@ -1,0 +1,17 @@
+<div class="form-group">
+    <label *ngIf="label">
+        <span *ngIf="required" class="text-danger">*</span>{{ label }}:
+    </label>
+    <div #externalContentContainer>
+        <ng-content></ng-content>
+    </div>
+
+    <ng-template [ngIf]="showDefaultTemplate">
+        <input *ngIf="!multiLine; else showTexArea" [ngbInputDirective]="self">
+
+        <ng-template #showTexArea>
+            <textarea [ngbInputDirective]="self"></textarea>
+        </ng-template>
+    </ng-template>
+    <small *ngIf="dirty && error" class="text-danger">{{ error }}</small>
+</div>

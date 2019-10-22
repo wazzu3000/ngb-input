@@ -1,0 +1,22 @@
+<ngb-input [name]="name" [id]="id" [value]="value" [ngModel]="searchText" (ngModelChange)="updateSearchText($event)"
+    [placeholder]="placeholder" [required]="required" [disabled]="disabled" [readonly]="readonly" [label]="label"
+    [requiredError]="requiredError" [formattError]="formattError" [manuallyHandleErrors]="true"
+    [showRequiredError]="showRequiredError" (blur)="displayError()"
+    [dirty]="dirty" [debounce]="debounce" #ngbInputComponent="ngbInputComponent">
+    <div class="input-group">
+        <input [ngbInputDirective]="ngbInputComponent" [ngbTypeahead]="handleTypeahead.search"
+            [inputFormatter]="handleTypeahead.formatter" [resultFormatter]="handleTypeahead.formatter"
+            autocomplete="off" (selectItem)="selectItem($event)" (focus)="openDropdownOnFocus()"
+            #inputSearch>
+
+        <div class="input-group-append">
+            <span class="input-group-text">
+                <i *ngIf="!searching; else searchSpinner" class="fas fa-search"></i>
+                <ng-template #searchSpinner>
+                    <i class="fas fa-spinner loading"></i>
+                </ng-template>
+            </span>
+            <ng-content select="input-group-append"></ng-content>
+        </div>
+    </div>
+</ngb-input>

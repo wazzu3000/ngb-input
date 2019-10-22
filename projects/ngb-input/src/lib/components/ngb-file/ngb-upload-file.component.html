@@ -1,0 +1,28 @@
+<div fileDrop class="rounded" [ngClass]="type"
+    (filesDropped)="filesDropped($event)"
+    (filesHovered)="filesHovered($event)"
+    (click)="inputFile.click()">
+    <div *ngIf="!isHover; else isHoverContent">
+        <div #ref>
+            <ng-content></ng-content>
+        </div>
+
+        <div *ngIf="ref.childNodes.length == 0" id="default">
+            <i class="fas fa-file-upload h1"></i>
+            <span *ngIf="files && files.length > 0; else filesLoaded" style="display: block">
+                Cargar archivo
+            </span>
+            <ng-template #filesLoaded>
+                <span>{{ fileLoadedName }}</span>
+            </ng-template>
+        </div>
+    </div>
+
+    <ng-template #isHoverContent>
+        Suelta aquí para cargar.
+    </ng-template>
+
+    <input type="file" [id]="id" [name]="name" [accept]="accept" [required]="required"
+        [disabled]="disabled" (change)="onInputFileChange($event)" #inputFile>
+</div>
+<small *ngIf="dirty && error" class="text-danger">{{ error }}</small>

@@ -1,0 +1,18 @@
+div[fileDrop] {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    height: 200px;
+    justify-content: center;
+    margin: auto;
+    padding: 16px;
+    width: 200px;
+}
+
+div[fileDrop] div {
+    text-align: center;
+}
+
+input[type="file"] {
+    display: none;
+}
