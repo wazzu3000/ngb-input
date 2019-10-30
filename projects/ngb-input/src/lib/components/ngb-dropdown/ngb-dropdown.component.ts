@@ -151,7 +151,7 @@ export class NgbDropdownDomponent implements OnInit, /*OnChanges,*/ ControlValue
             }
         }
 
-        return null;        
+        return null;   
     }
 
     public valueIsValid(value: any | any[]) {

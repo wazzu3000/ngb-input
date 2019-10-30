@@ -37,6 +37,246 @@
           }
         }
       }
+    },
+    "ng-input-test": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/ng-input-test",
+      "sourceRoot": "projects/ng-input-test/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/ng-input-test",
+            "index": "projects/ng-input-test/src/index.html",
+            "main": "projects/ng-input-test/src/main.ts",
+            "polyfills": "projects/ng-input-test/src/polyfills.ts",
+            "tsConfig": "projects/ng-input-test/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "projects/ng-input-test/src/favicon.ico",
+              "projects/ng-input-test/src/assets"
+            ],
+            "styles": [
+              "projects/ng-input-test/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/ng-input-test/src/environments/environment.ts",
+                  "with": "projects/ng-input-test/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ng-input-test:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ng-input-test:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ng-input-test:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng-input-test/src/test.ts",
+            "polyfills": "projects/ng-input-test/src/polyfills.ts",
+            "tsConfig": "projects/ng-input-test/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-input-test/karma.conf.js",
+            "assets": [
+              "projects/ng-input-test/src/favicon.ico",
+              "projects/ng-input-test/src/assets"
+            ],
+            "styles": [
+              "projects/ng-input-test/src/styles.css"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ng-input-test/tsconfig.app.json",
+              "projects/ng-input-test/tsconfig.spec.json",
+              "projects/ng-input-test/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/ng-input-test/e2e/protractor.conf.js",
+            "devServerTarget": "ng-input-test:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ng-input-test:serve:production"
+            }
+          }
+        }
+      }
+    },
+    "ngb-input-test": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/ngb-input-test",
+      "sourceRoot": "projects/ngb-input-test/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/ngb-input-test",
+            "index": "projects/ngb-input-test/src/index.html",
+            "main": "projects/ngb-input-test/src/main.ts",
+            "polyfills": "projects/ngb-input-test/src/polyfills.ts",
+            "tsConfig": "projects/ngb-input-test/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "projects/ngb-input-test/src/favicon.ico",
+              "projects/ngb-input-test/src/assets"
+            ],
+            "styles": [
+              "projects/ngb-input-test/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/ngb-input-test/src/environments/environment.ts",
+                  "with": "projects/ngb-input-test/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ngb-input-test:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ngb-input-test:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ngb-input-test:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngb-input-test/src/test.ts",
+            "polyfills": "projects/ngb-input-test/src/polyfills.ts",
+            "tsConfig": "projects/ngb-input-test/tsconfig.spec.json",
+            "karmaConfig": "projects/ngb-input-test/karma.conf.js",
+            "assets": [
+              "projects/ngb-input-test/src/favicon.ico",
+              "projects/ngb-input-test/src/assets"
+            ],
+            "styles": [
+              "projects/ngb-input-test/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngb-input-test/tsconfig.app.json",
+              "projects/ngb-input-test/tsconfig.spec.json",
+              "projects/ngb-input-test/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/ngb-input-test/e2e/protractor.conf.js",
+            "devServerTarget": "ngb-input-test:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ngb-input-test:serve:production"
+            }
+          }
+        }
+      }
     }},
   "defaultProject": "ngb-input"
 }

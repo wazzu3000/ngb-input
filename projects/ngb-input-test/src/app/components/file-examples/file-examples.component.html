@@ -1,0 +1,21 @@
+<div class="container">
+    <h1>Sandbox</h1>
+    <p>Simple example to use ngb-file</p>
+    <form #form1="ngForm">
+        <ngb-file id="test" name="test" [(ngModel)]="tests[0]"></ngb-file>
+        <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+    <form #form2="ngForm">
+        <ngb-file id="test" name="test" [(ngModel)]="tests[1]" label="Pick up a file"></ngb-file>
+        <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+    <form #form3="ngForm">
+        <ngb-file id="test" name="test" [(ngModel)]="tests[2]" label="Pick up a file" [required]="true" [dirty]="dirty[2]"></ngb-file>
+        <button type="submit" class="btn btn-primary" (click)="dirty[2] = true">Send</button>
+    </form>
+
+    <form #form4="ngForm">
+        <ngb-file id="test" name="test" [(ngModel)]="tests[3]" label="Pick up a file" [required]="true" [dirty]="dirty[3]" [disabled]="true"></ngb-file>
+        <button type="submit" class="btn btn-primary" (click)="dirty[3] = true">Send</button>
+    </form>
+</div>

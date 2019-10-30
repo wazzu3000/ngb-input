@@ -5,7 +5,7 @@ import { NgbDropdownModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstra
 
 import { NgbInputComponent } from './components/ngb-input/ngb-input.component';
 import { NgbSearchComponent } from './components/ngb-search/ngb-search.component';
-import { NgbUploadFileComponent } from './components/ngb-file/ngb-upload-file.component';
+import { NgbFileComponent } from './components/ngb-file/ngb-file.component';
 import { NgbDropdownDomponent } from './components/ngb-dropdown/ngb-dropdown.component';
 
 import { FileDropDirective } from './directives/file-drop.directive';
@@ -21,7 +21,7 @@ import { NgbInputDirective } from './directives/ngb-input.directive';
     declarations: [
         NgbInputComponent,
         NgbSearchComponent,
-        NgbUploadFileComponent,
+        NgbFileComponent,
         NgbDropdownDomponent,
         FileDropDirective,
         NgbInputDirective
@@ -32,7 +32,7 @@ import { NgbInputDirective } from './directives/ngb-input.directive';
         FormsModule,
         NgbInputComponent,
         NgbSearchComponent,
-        NgbUploadFileComponent,
+        NgbFileComponent,
         NgbDropdownDomponent,
         NgbInputDirective
     ]

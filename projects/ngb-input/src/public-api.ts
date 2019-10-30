@@ -3,7 +3,7 @@
  */
 
 export * from './lib/components/ngb-dropdown/ngb-dropdown.component';
-export * from './lib/components/ngb-file/ngb-upload-file.component';
+export * from './lib/components/ngb-file/ngb-file.component';
 export * from './lib/components/ngb-input/ngb-input.component';
 export * from './lib/components/ngb-search/ngb-search.component';
 export * from './lib/directives/ngb-input.directive';
