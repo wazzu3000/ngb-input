@@ -2,7 +2,7 @@
     <span *ngIf="required" class="text-danger">*</span>{{ label }}:
 </label>
 
-<div fileDrop class="rounded border" [ngClass]="{ 'border-danger': dirty && error, 'text-muted': disabled, 'bg-light': disabled }" (filesDropped)="filesDropped($event)" (filesHovered)="filesHovered($event)" (click)="inputFile.click()" [ngStyle]="{ height: height, width: width, cursor: (disabled ? 'context-menu' : 'pointer') }">
+<div fileDrop class="rounded border" [ngClass]="{ 'border-danger': dirty && error, 'text-muted': disabled, 'bg-light': disabled }" (filesDropped)="filesDropped($event)" (filesHovered)="filesHovered($event)" (click)="filesClick()" [ngStyle]="{ height: height, width: width, cursor: (disabled ? 'context-menu' : 'pointer') }">
     <div *ngIf="!isHover; else isHoverContent">
         <div #ref>
             <ng-content></ng-content>
@@ -22,6 +22,6 @@
         Suelta aquí para cargar.
     </ng-template>
 
-    <input type="file" [id]="id" [name]="name" [accept]="accept" [disabled]="disabled" [multiple]="multiple" (change)="onInputFileChange($event)" #inputFile>
+    <!-- <input type="file" [id]="id" [name]="name" [accept]="accept" [disabled]="disabled" [multiple]="multiple" (change)="onInputFileChange($event)" #inputFile> -->
 </div>
 <small *ngIf="dirty && error" class="text-danger">{{ error }}</small>

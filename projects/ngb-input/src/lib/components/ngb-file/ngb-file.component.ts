@@ -96,14 +96,14 @@ export class NgbFileComponent implements OnInit, ControlValueAccessor, Validator
         this.isHover = isHover;
     }
 
-    public onInputFileChange(event: Event) {
-        let files: FileList = event.target['files'];
-        if (files.length == 0) {
-            return;
-        }
+    // public onInputFileChange(event: Event) {
+    //     let files: FileList = event.target['files'];
+    //     if (files.length == 0) {
+    //         return;
+    //     }
 
-        this.updateModel(files)
-    }
+    //     this.updateModel(files)
+    // }
 
     public writeValue(obj: any): void {
         if (obj) {
@@ -129,13 +129,32 @@ export class NgbFileComponent implements OnInit, ControlValueAccessor, Validator
         return null;
     }
 
+    public filesClick() {
+        const fileInput = document.createElement('input');
+        const body = document.querySelector('body');
+        fileInput.type = 'file';
+        fileInput.style.display = 'none';
+        
+        fileInput.onchange = (event: Event) => {
+            let files: FileList = event.target['files'];
+            body.removeChild(fileInput);
+            if (files.length == 0) {
+                return;
+            }
+    
+            this.updateModel(files)
+        }
+
+        body.appendChild(fileInput);
+        fileInput.click();
+    }
+
     private updateModel(fileList: FileList) {
         this.error = '';
-        this.files = Object.assign([], fileList);
-        this.fileLoadedName = this.files.length == 1 ? this.files[0].name : `Se cargaron ${this.files.length} archivos`
+        this.files = fileList;
+        this.fileLoadedName = fileList.length == 1 ? fileList[0].name : `Se cargaron ${fileList.length} archivos`
         this.filesUploadedChange.emit(fileList);
         this.propagateChange(fileList);
         this.onTouched(fileList);
-        this.inputFile.nativeElement.value = '';
     }
 }
