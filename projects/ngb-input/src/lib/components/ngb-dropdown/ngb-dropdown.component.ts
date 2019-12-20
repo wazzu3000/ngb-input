@@ -19,10 +19,14 @@ import { ControlValueAccessor, Validator, AbstractControl, ValidationErrors, NG_
     ]
 })
 export class NgbDropdownDomponent implements OnInit, /*OnChanges,*/ ControlValueAccessor, Validator {
+    private static _requiredError = 'This field is required';
+    private static _withoutOptions = ' ';
+    private static _placeholder = 'Select an option';
     private _options: any[] = [];
     private model: any
     private propagateChange: any = (_: any) => {};
     private onTouched: any = (_: any) => {};
+    public withoutOptions = NgbDropdownDomponent._withoutOptions;
     public error: string;
     public selected: boolean;
 
@@ -42,7 +46,7 @@ export class NgbDropdownDomponent implements OnInit, /*OnChanges,*/ ControlValue
     public change = new EventEmitter<any>()
 
     @Input()
-    public emptyText: string = 'Seleccione una opción'
+    public placeholder: string = NgbDropdownDomponent._placeholder;
 
     @Input()
     public label: string = ''
@@ -57,7 +61,7 @@ export class NgbDropdownDomponent implements OnInit, /*OnChanges,*/ ControlValue
     public optionValue: string;
 
     @Input()
-    public requiredError: string = 'Seleccione una opción';
+    public requiredError: string = NgbDropdownDomponent._requiredError;
 
     @Input()
     public dirty: boolean;
@@ -92,7 +96,11 @@ export class NgbDropdownDomponent implements OnInit, /*OnChanges,*/ ControlValue
         this._options = value;
     }
 
-    public constructor() {}
+    public static init(errorMessage: { required?: string; }, informationMessages: { empty?: string, placeholder?: string }) {
+        NgbDropdownDomponent._requiredError = errorMessage.required || NgbDropdownDomponent._requiredError;
+        NgbDropdownDomponent._withoutOptions = informationMessages.empty || NgbDropdownDomponent._withoutOptions;
+        NgbDropdownDomponent._placeholder = informationMessages.placeholder || NgbDropdownDomponent._placeholder;
+    }
 
     public ngOnInit(): void {
         if (this.required) {

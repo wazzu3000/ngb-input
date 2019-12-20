@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, OnInit, forwardRef, ViewChild, ElementRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, Validator, AbstractControl, ValidationErrors, NG_VALIDATORS } from '@angular/forms';
+import { Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 
 @Component({
     selector: 'ngb-file',
@@ -19,12 +19,19 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, Validator, AbstractControl, Va
     ]
 })
 export class NgbFileComponent implements OnInit, ControlValueAccessor, Validator {
+    private static _requiredError = 'Required';
+    private static _invalidTypeError = '';
+    private static _maxSizeExceededError = 'A file exceeds the limit size';
+    private static _placeholder = 'Load file';
+    private static _dropMessage = 'Drop files here';
     private propagateChange: any = (_: any) => {};
     private onTouched: any = (_: any) => {};
     private _required: boolean;
+    private _maxSize: number;
     public files: FileList;
     public error: string;
     public fileLoadedName: string;
+    public dropMessage = NgbFileComponent._dropMessage;
     public isHover: boolean;
 
     @ViewChild('inputFile', { static: false })
@@ -49,6 +56,15 @@ export class NgbFileComponent implements OnInit, ControlValueAccessor, Validator
     public label: string;
 
     @Input()
+    public placeholder: string = NgbFileComponent._placeholder;
+
+    @Input()
+    public invalidTypeError: string = NgbFileComponent._invalidTypeError;
+
+    @Input()
+    public maxSizeExceededError: string = NgbFileComponent._maxSizeExceededError;
+
+    @Input()
     public disabled: boolean;
 
     @Input()
@@ -58,7 +74,7 @@ export class NgbFileComponent implements OnInit, ControlValueAccessor, Validator
     public width: string = '200px';
 
     @Input()
-    public requiredError: string = 'Archivo requerido';
+    public requiredError: string = NgbFileComponent._requiredError;
 
     @Input()
     public dirty: boolean;
@@ -73,7 +89,43 @@ export class NgbFileComponent implements OnInit, ControlValueAccessor, Validator
         this.error = val && (!this.files || this.files.length == 0) ? this.requiredError : ''
     }
 
-    public constructor() { }
+    @Input()
+    public get maxSize(): number | string {
+        return this._maxSize;
+    }
+
+    public set maxSize(value: number | string) {
+        if (typeof value === 'number') {
+            this._maxSize = value;
+        } else {
+            if (!/^\d+(\s)?(kb|mb|gb){2}$/.test(value)) {
+                console.error('The value must be a number or a string with the subffix kb, mb or gb');
+                return;
+            }
+
+            const num = parseFloat(value.match(/^\d+/)[0]);
+            const subffix = value.match(/\w+$/)[0].toLowerCase();
+            switch (subffix) {
+                case 'kb':
+                    this._maxSize = num * 1024;
+                    break;
+                case 'mb':
+                    this._maxSize = num * 1024 * 1024;
+                    break;
+                case 'gb':
+                    this._maxSize = num * 1024 * 1024 * 1024;
+                    break;
+            }
+        }
+    }
+
+    public static init(errorMessages: { required?: string; invalidType?: string; maxSizeExceeded?: string; }, informationMessages: { placeholder?: string; drop?: string; }) {
+        NgbFileComponent._requiredError = errorMessages.required || NgbFileComponent._requiredError;
+        NgbFileComponent._invalidTypeError = errorMessages.invalidType || NgbFileComponent._invalidTypeError;
+        NgbFileComponent._maxSizeExceededError = errorMessages.maxSizeExceeded || NgbFileComponent._maxSizeExceededError;
+        NgbFileComponent._placeholder = informationMessages.placeholder || NgbFileComponent._placeholder;
+        NgbFileComponent._dropMessage = informationMessages.drop || NgbFileComponent._dropMessage;
+    }
 
     public ngOnInit(): void {
         if (this.required) {
@@ -150,6 +202,15 @@ export class NgbFileComponent implements OnInit, ControlValueAccessor, Validator
     }
 
     private updateModel(fileList: FileList) {
+        if (this.maxSize) {
+            for (let file of Array.from(fileList)) {
+                if (file.size > this.maxSize) {
+                    this.error = this.maxSizeExceededError;
+                    return;
+                }
+            }
+        }
+
         this.error = '';
         this.files = fileList;
         this.fileLoadedName = fileList.length == 1 ? fileList[0].name : `Se cargaron ${fileList.length} archivos`

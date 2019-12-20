@@ -1,34 +1,33 @@
 <div class="form-group ngb-dropdown">
-    <label>
+    <label *ngIf="label">
         <span *ngIf="required" class="text-danger">*</span>{{ label }}:
     </label>
     <div [autoClose]="multiple ? 'outside' : true" ngbDropdown>
         <!-- Show selected or selectes values -->
-        <button type="button" class="btn btn-light border white" [ngClass]="{ 'border-danger': dirty && error }"
-            style="white-space: normal" ngbDropdownToggle>
-            <ng-template [ngIf]="(ngModel && !multiple) || (ngModel && multiple && ngModel.length > 0)"
-                [ngIfElse]="emptyTextContainer">
+        <button type="button" class="form-control" [ngClass]="{ 'is-invalid': dirty && error, 'text-danger': dirty && error }" style="white-space: normal" ngbDropdownToggle>
+            <span style="display: inline-block; width: calc(100% - 19px);">
+                <ng-template [ngIf]="(ngModel && !multiple) || (ngModel && multiple && ngModel.length > 0)" [ngIfElse]="emptyTextContainer">
 
-                <!-- Show 1 element selected, when isn't multiple -->
-                <ng-template [ngIf]="!multiple" [ngIfElse]="multipleValues">
-                    {{ optionLabel ? ngModel[optionLabel] : ngModel }}
+                    <!-- Show just 1 element selected, when it's not multiple -->
+                    <ng-template [ngIf]="!multiple" [ngIfElse]="multipleValues">
+                        {{ optionLabel ? ngModel[optionLabel] : ngModel }}
+                    </ng-template>
+
+                    <!-- Show many elements selecteds, when it's multiple -->
+                    <ng-template #multipleValues>
+                        <a *ngFor="let element of ngModel" href="javascript:void(0)" class="badge badge-pill badge-primary" style="margin-right: 5px" (click)="unselectOption($event, element)">
+                            <span>
+                                {{ optionLabel ? element[optionLabel] : element }}
+                                &times;
+                            </span>
+                        </a>
+                    </ng-template>
                 </ng-template>
 
-                <!-- Show many elements selecteds, when isn multiple -->
-                <ng-template #multipleValues>
-                    <a *ngFor="let element of ngModel" href="javascript:void(0)" class="badge badge-pill badge-primary"
-                        style="margin-right: 5px" (click)="unselectOption($event, element)">
-                        <span>
-                            {{ optionLabel ? element[optionLabel] : element }}
-                            &times;
-                        </span>
-                    </a>
+                <ng-template #emptyTextContainer>
+                    {{ placeholder }}
                 </ng-template>
-            </ng-template>
-
-            <ng-template #emptyTextContainer>
-                {{ emptyText }}
-            </ng-template>
+            </span>
         </button>
 
         <!-- Display all options -->
@@ -37,7 +36,7 @@
                 {{ optionLabel ? option[optionLabel] : option }}
             </button>
             <button type="button" *ngIf="!options || options.length == 0" ngbDropdownItem>
-                Sin opciones
+                {{ withoutOptions }}
             </button>
         </div>
     </div>

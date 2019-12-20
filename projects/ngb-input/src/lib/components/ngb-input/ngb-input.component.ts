@@ -21,6 +21,8 @@ const inputAttributes = [
     ]
 })
 export class NgbInputComponent implements OnInit, AfterViewInit, OnChanges, ControlValueAccessor {
+    private static _requiredError = 'This field is required';
+    private static _formatError = 'Invalid input data';
     private sourceInput = new Subject<NgbInputModel>();
     private _pattern: RegExp;
     private _patternStr: string;
@@ -70,10 +72,10 @@ export class NgbInputComponent implements OnInit, AfterViewInit, OnChanges, Cont
     public ngModel: any;
 
     @Input()
-    public requiredError: string = 'Campo requerido';
+    public requiredError: string = NgbInputComponent._requiredError;
 
     @Input()
-    public formattError: string = 'Formato invalido';
+    public formatError: string = NgbInputComponent._formatError;
 
     @Input()
     public manuallyHandleErrors: boolean;
@@ -82,7 +84,7 @@ export class NgbInputComponent implements OnInit, AfterViewInit, OnChanges, Cont
     public showRequiredError: boolean;
 
     @Input()
-    public showFormattError: boolean;
+    public showFormatError: boolean;
 
     @Output()
     public ngModelChange = new EventEmitter<any>();
@@ -120,6 +122,11 @@ export class NgbInputComponent implements OnInit, AfterViewInit, OnChanges, Cont
 
     @Input()
     public multiLine: boolean;
+
+    public static init(errorMessage: { required?: string; invalidFormat?: string; }) {
+        NgbInputComponent._formatError = errorMessage.invalidFormat || NgbInputComponent._formatError;
+        NgbInputComponent._requiredError = errorMessage.required || NgbInputComponent._requiredError;
+    }
 
     public ngOnInit() {
         if (this.pattern) {
@@ -177,8 +184,8 @@ export class NgbInputComponent implements OnInit, AfterViewInit, OnChanges, Cont
         if (this.manuallyHandleErrors ) {
             if (this.showRequiredError && this.dirty) {
                 this.error = this.requiredError;
-            } else if (this.showFormattError && this.dirty) {
-                this.error = this.formattError;
+            } else if (this.showFormatError && this.dirty) {
+                this.error = this.formatError;
             } else {
                 this.error = ''
             }
@@ -242,7 +249,7 @@ export class NgbInputComponent implements OnInit, AfterViewInit, OnChanges, Cont
         if (this.required && !model) {
             this.error = this.requiredError;
         } else if (this.pattern && !this._pattern.test(model)) {
-            this.error = this.formattError;
+            this.error = this.formatError;
         } else {
             this.error = '';
         }

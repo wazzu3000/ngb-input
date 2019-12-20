@@ -1,3 +1,5 @@
+@import '~bootstrap/scss/bootstrap.scss';
+
 div.ngb-dropdown .dropdown-menu {
     max-height: 200px !important;
     overflow-y: auto !important;
@@ -6,10 +8,6 @@ div.ngb-dropdown .dropdown-menu {
 
 div.ngb-dropdown div[ngbDropdown] {
     width: 100% !important;
-}
-
-div.ngb-dropdown div[ngbDropdown] button.white {
-    background-color: white !important;
 }
 
 div.ngb-dropdown div[ngbDropdown] [ngbDropdownToggle] {

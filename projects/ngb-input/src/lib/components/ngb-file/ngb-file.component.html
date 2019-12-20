@@ -1,27 +1,27 @@
-<label *ngIf="label">
-    <span *ngIf="required" class="text-danger">*</span>{{ label }}:
-</label>
+<div class="form-group">
+    <label *ngIf="label">
+        <span *ngIf="required" class="text-danger">*</span>{{ label }}:
+    </label>
 
-<div fileDrop class="rounded border" [ngClass]="{ 'border-danger': dirty && error, 'text-muted': disabled, 'bg-light': disabled }" (filesDropped)="filesDropped($event)" (filesHovered)="filesHovered($event)" (click)="filesClick()" [ngStyle]="{ height: height, width: width, cursor: (disabled ? 'context-menu' : 'pointer') }">
-    <div *ngIf="!isHover; else isHoverContent">
-        <div #ref>
-            <ng-content></ng-content>
+    <button fileDrop class="form-control text-wrap text-truncate" [ngClass]="{ 'is-invalid': dirty && error, 'text-danger': dirty && error }" (filesDropped)="filesDropped($event)" (filesHovered)="filesHovered($event)" (click)="filesClick()" [ngStyle]="{ height: height, width: width }" [disabled]="disabled">
+        <div *ngIf="!isHover; else isHoverContent">
+            <div #ref>
+                <ng-content></ng-content>
+            </div>
+
+            <div *ngIf="ref.childNodes.length == 0" id="default">
+                <span *ngIf="!files || files.length == 0; else filesLoaded" style="display: block">
+                    {{ placeholder }}
+                </span>
+                <ng-template #filesLoaded>
+                    <span>{{ fileLoadedName }}</span>
+                </ng-template>
+            </div>
         </div>
 
-        <div *ngIf="ref.childNodes.length == 0" id="default">
-            <span *ngIf="!files || files.length == 0; else filesLoaded" style="display: block">
-                Cargar archivo
-            </span>
-            <ng-template #filesLoaded>
-                <span>{{ fileLoadedName }}</span>
-            </ng-template>
-        </div>
-    </div>
-
-    <ng-template #isHoverContent>
-        Suelta aquí para cargar.
-    </ng-template>
-
-    <!-- <input type="file" [id]="id" [name]="name" [accept]="accept" [disabled]="disabled" [multiple]="multiple" (change)="onInputFileChange($event)" #inputFile> -->
+        <ng-template #isHoverContent>
+            {{ dropMessage }}
+        </ng-template>
+    </button>
+    <small *ngIf="dirty && error" class="text-danger">{{ error }}</small>
 </div>
-<small *ngIf="dirty && error" class="text-danger">{{ error }}</small>

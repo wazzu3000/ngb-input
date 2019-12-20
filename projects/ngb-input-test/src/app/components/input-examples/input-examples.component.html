@@ -1,0 +1,75 @@
+<div class="container">
+    <h1>ngb-input</h1>
+    <p>
+        This component works like HTML standart input, but adds some new attributes to
+        make easest create user forms.
+    </p>
+    <p>
+        ngb-input just accept the follow types: date, datetime, email, number, password,
+        tel, time, url, week. If you try use a different attribute type, this will be
+        changed to text type.
+    </p>
+    <form>
+        <div class="row">
+            <div class="col">
+                <h2>Simple input</h2>
+            </div>
+            <div class="col-auto">
+                <button (click)="showSimpleInput = !showSimpleInput" button-show-code></button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <pre *ngIf="showSimpleInput"><code [highlight]="simpleInput" [languages]="xml" [lineNumbers]="true"></code></pre>
+                <ngb-input id="test" name="test" [(ngModel)]="test1"></ngb-input>
+                <p>
+                    The <b>ngb-input</b> tag, adds the container <b>form-group</b> and add the
+                    <b>form-control</b> class to the input.
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h2>Add a label</h2>
+            </div>
+            <div class="col-auto">
+                <button (click)="showAddALabel = !showAddALabel" button-show-code></button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <pre *ngIf="showAddALabel"><code [highlight]="addALabel" [languages]="xml" [lineNumbers]="true"></code></pre>
+                <ngb-input id="test" name="test" [(ngModel)]="test2" label="Write something"></ngb-input>
+                <p>
+                    If you need add a label to the input, just add the attribute <b>label</b>.
+                    The colon is added by default.
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h2>Required validator</h2>
+            </div>
+            <div class="col-auto">
+                <button (click)="showRequiredInput = !showRequiredInput" button-show-code></button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <pre *ngIf="showRequiredInput"><code [highlight]="requiredInput" [languages]="xml" [lineNumbers]="true"></code></pre>
+                <ngb-input id="test" name="test" [(ngModel)]="test3" label="Text required" [required]="true"></ngb-input>
+                <p>
+                    If you set the attribute <b>required</b>, this adds a mark in the label
+                    (if any was setted) and it shows an error message when the input is empty
+                    on lost focus.
+                </p>
+            </div>
+        </div>
+
+
+        <p>You can add a custom message in the validator</p>
+        <ngb-input id="test" name="test" [(ngModel)]="test4" label="Text required" [required]="true" requiredError="You must add a value in this field"></ngb-input>
+    </form>
+</div>

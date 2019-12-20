@@ -65,7 +65,7 @@ export class NgbSearchComponent implements OnInit, OnChanges, ControlValueAccess
     public requiredError: string = 'Campo requerido';
 
     @Input()
-    public formattError: string = 'Formato invalido';
+    public formatError: string = 'Formato invalido';
 
     @Input()
     public dirty: boolean;

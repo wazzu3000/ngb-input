@@ -11,6 +11,33 @@ import { NgbDropdownDomponent } from './components/ngb-dropdown/ngb-dropdown.com
 import { FileDropDirective } from './directives/file-drop.directive';
 import { NgbInputDirective } from './directives/ngb-input.directive';
 
+export type DefaultMessages = {
+    errors: {
+        ngbInput?: {
+            required?: string;
+            invalidFormat?: string;
+        },
+        ngbFile?: {
+            required?: string;
+            invalidType?: string;
+            maxSizeExceeded?: string;
+        }
+        ngbDropDown?: {
+            required?: string;
+        }
+    },
+    information: {
+        ngbDropDown?: {
+            empty?: string,
+            placeholder?: string
+        },
+        ngbFile?: {
+            placeholder?: string;
+            drop?: string;
+        }
+    }
+}
+
 @NgModule({
     imports: [
         NgbDropdownModule,
@@ -37,4 +64,14 @@ import { NgbInputDirective } from './directives/ngb-input.directive';
         NgbInputDirective
     ]
 })
-export class NgbInputModule { }
+export class NgbInputModule {
+    public static initializeApp(defaultmessages: DefaultMessages) {
+        NgbInputComponent.init(defaultmessages.errors.ngbInput || {});
+        NgbDropdownDomponent.init(defaultmessages.errors.ngbDropDown || {}, defaultmessages.information.ngbDropDown || {});
+        NgbFileComponent.init(defaultmessages.errors.ngbFile || {}, defaultmessages.information.ngbFile || {});
+
+        return {
+            ngModule: NgbInputModule,
+        }
+    }
+}
