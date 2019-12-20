@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, forwardRef, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, Validator, AbstractControl, ValidationErrors, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
+import { PlacementArray } from '@ng-bootstrap/ng-bootstrap/util/positioning';
 
 @Component({
     selector: 'ngb-dropdown',
@@ -18,7 +19,7 @@ import { ControlValueAccessor, Validator, AbstractControl, ValidationErrors, NG_
         }
     ]
 })
-export class NgbDropdownDomponent implements OnInit, /*OnChanges,*/ ControlValueAccessor, Validator {
+export class NgbDropdownDomponent implements OnInit, OnChanges, ControlValueAccessor, Validator {
     private static _requiredError = 'This field is required';
     private static _withoutOptions = ' ';
     private static _placeholder = 'Select an option';
@@ -26,6 +27,7 @@ export class NgbDropdownDomponent implements OnInit, /*OnChanges,*/ ControlValue
     private model: any
     private propagateChange: any = (_: any) => {};
     private onTouched: any = (_: any) => {};
+    public optionSelected: any;
     public withoutOptions = NgbDropdownDomponent._withoutOptions;
     public error: string;
     public selected: boolean;
@@ -49,7 +51,7 @@ export class NgbDropdownDomponent implements OnInit, /*OnChanges,*/ ControlValue
     public placeholder: string = NgbDropdownDomponent._placeholder;
 
     @Input()
-    public label: string = ''
+    public label: string = '';
 
     @Input()
     public multiple: boolean;
@@ -86,7 +88,7 @@ export class NgbDropdownDomponent implements OnInit, /*OnChanges,*/ ControlValue
     @Input()
     public get options(): any[] {
         if (this.multiple && this._options) {
-            return this._options.filter(x => this.ngModel.indexOf(x) == -1)
+            return this._options.filter(x => this.optionSelected.indexOf(x) == -1)
         }
 
         return this._options;
@@ -108,12 +110,26 @@ export class NgbDropdownDomponent implements OnInit, /*OnChanges,*/ ControlValue
         }
     }
 
+    public ngOnChanges(changes: SimpleChanges) {
+        if (changes.multiple && !this.model) {
+            if (changes.multiple.currentValue === true) {
+                this.model = [];
+                this.optionSelected = [];
+            } else if (changes.multiple.currentValue === false) {
+                this.model = undefined;
+                this.optionSelected = undefined;
+            }
+        }
+    }
+
     public selectOption(option: any) {
         const value = this.optionValue ? option[this.optionValue] : option;
         if (this.multiple) {
+            this.optionSelected.push(option);
             this.ngModel.push(value);
             this.error = '';
         } else {
+            this.optionSelected = option;
             this.ngModel = value;
         }
         
@@ -126,8 +142,9 @@ export class NgbDropdownDomponent implements OnInit, /*OnChanges,*/ ControlValue
 
     public unselectOption(event: Event, element: any) {
         event.stopPropagation();
-        const index = this.ngModel.indexOf(element);
+        const index = this.optionSelected.indexOf(element);
         this.ngModel.splice(index, 1);
+        this.optionSelected.splice(index, 1);
         this.onTouched(this.ngModel);
         this.propagateChange(this.ngModel);
         this.ngModelChange.emit(this.ngModel);

@@ -2,7 +2,7 @@
     <label *ngIf="label">
         <span *ngIf="required" class="text-danger">*</span>{{ label }}:
     </label>
-    <div [autoClose]="multiple ? 'outside' : true" ngbDropdown>
+    <div [autoClose]="multiple ? 'outside' : true" placement="bottom" ngbDropdown>
         <!-- Show selected or selectes values -->
         <button type="button" class="form-control" [ngClass]="{ 'is-invalid': dirty && error, 'text-danger': dirty && error }" style="white-space: normal" ngbDropdownToggle>
             <span style="display: inline-block; width: calc(100% - 19px);">
@@ -10,12 +10,12 @@
 
                     <!-- Show just 1 element selected, when it's not multiple -->
                     <ng-template [ngIf]="!multiple" [ngIfElse]="multipleValues">
-                        {{ optionLabel ? ngModel[optionLabel] : ngModel }}
+                        {{ optionLabel ? optionSelected[optionLabel] : optionSelected }}
                     </ng-template>
 
                     <!-- Show many elements selecteds, when it's multiple -->
                     <ng-template #multipleValues>
-                        <a *ngFor="let element of ngModel" href="javascript:void(0)" class="badge badge-pill badge-primary" style="margin-right: 5px" (click)="unselectOption($event, element)">
+                        <a *ngFor="let element of optionSelected" href="javascript:void(0)" class="badge badge-pill badge-primary" style="margin-right: 5px" (click)="unselectOption($event, element)">
                             <span>
                                 {{ optionLabel ? element[optionLabel] : element }}
                                 &times;

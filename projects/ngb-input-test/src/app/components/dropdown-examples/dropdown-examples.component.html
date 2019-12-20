@@ -2,12 +2,47 @@
 
 <div class="card">
     <div class="card-body">
-        <ngb-dropdown id="test" name="test"></ngb-dropdown>
+        <ngb-dropdown id="test1" name="test1" [(ngModel)]="test1"></ngb-dropdown>
     </div>
 </div>
 
 <div class="card">
     <div class="card-body">
-        <ngb-dropdown id="test" name="test" [options]="[1, 2, 3, 4, 5]"></ngb-dropdown>
+        <ngb-dropdown id="test2" name="test2" [(ngModel)]="test2" [options]="optionsBasic"></ngb-dropdown>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <ngb-dropdown id="test3" name="test3" [(ngModel)]="test3" [options]="optionsComplex" optionLabel="label"></ngb-dropdown>
+        {{ test3 | json }}
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <ngb-dropdown id="test4" name="test4" [(ngModel)]="test4" [options]="optionsComplex" optionLabel="label" optionValue="value"></ngb-dropdown>
+        {{ test4 }}
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <ngb-dropdown id="test5" name="test5" [(ngModel)]="test5" [options]="optionsBasic" [multiple]="true"></ngb-dropdown>
+        {{ test5 | json }}
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <ngb-dropdown id="test6" name="test6" [(ngModel)]="test6" [options]="optionsComplex" optionLabel="label" [multiple]="true"></ngb-dropdown>
+        {{ test6 | json }}
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <ngb-dropdown id="test7" name="test7" [(ngModel)]="test7" [options]="optionsComplex" optionLabel="label" optionValue="value" [multiple]="true"></ngb-dropdown>
+        {{ test7 | json }}
     </div>
 </div>
