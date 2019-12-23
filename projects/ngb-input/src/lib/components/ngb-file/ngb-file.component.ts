@@ -184,6 +184,10 @@ export class NgbFileComponent implements OnInit, ControlValueAccessor, Validator
         fileInput.type = 'file';
         fileInput.style.display = 'none';
         
+        if (this.accept) {
+            fileInput.accept = this.accept;
+        }
+
         fileInput.onchange = (event: Event) => {
             let files: FileList = event.target['files'];
             body.removeChild(fileInput);
