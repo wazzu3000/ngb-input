@@ -88,7 +88,7 @@ export class NgbDropdownDomponent implements OnInit, OnChanges, ControlValueAcce
     @Input()
     public get options(): any[] {
         if (this.multiple && this._options) {
-            return this._options.filter(x => this.optionSelected.indexOf(x) == -1)
+            return this._options.filter(x => this.optionSelected && this.optionSelected.indexOf(x) == -1)
         }
 
         return this._options;
@@ -108,9 +108,16 @@ export class NgbDropdownDomponent implements OnInit, OnChanges, ControlValueAcce
         if (this.required) {
             this.error = this.requiredError;
         }
+        
+        if (!Array.isArray(this.model)) {
+            this.optionSelected = this.optionValue ?
+                this._options.find(x => x[this.optionValue] == this.model) :
+                this.model;
+        }
     }
 
     public ngOnChanges(changes: SimpleChanges) {
+        // If the 
         if (changes.multiple && !this.model) {
             if (changes.multiple.currentValue === true) {
                 this.model = [];
@@ -119,6 +126,16 @@ export class NgbDropdownDomponent implements OnInit, OnChanges, ControlValueAcce
                 this.model = undefined;
                 this.optionSelected = undefined;
             }
+        } else if (changes.multiple && this.model) {
+            if (changes.multiple.currentValue === true) {
+                const optionValue = this.optionValue;
+                this.optionSelected = optionValue ?
+                    this._options.filter(x => this.model.find(x1 => this.compareObjects(x1, x[optionValue]))) :
+                    this._options.filter(x => this.model.find(x1 => this.compareObjects(x1, x)));
+
+            } else if (changes.multiple.currentValue === false) {
+                this.optionSelected = this.model;
+            }
         }
     }
 
@@ -126,31 +143,31 @@ export class NgbDropdownDomponent implements OnInit, OnChanges, ControlValueAcce
         const value = this.optionValue ? option[this.optionValue] : option;
         if (this.multiple) {
             this.optionSelected.push(option);
-            this.ngModel.push(value);
+            this.model.push(value);
             this.error = '';
         } else {
             this.optionSelected = option;
-            this.ngModel = value;
+            this.model = value;
         }
         
         this.dirty = true;
-        this.onTouched(this.ngModel);
-        this.propagateChange(this.ngModel);
-        this.ngModelChange.emit(this.ngModel);
-        this.change.emit(this.ngModel);
+        this.onTouched(this.model);
+        this.propagateChange(this.model);
+        this.ngModelChange.emit(this.model);
+        this.change.emit(this.model);
     }
 
     public unselectOption(event: Event, element: any) {
         event.stopPropagation();
         const index = this.optionSelected.indexOf(element);
-        this.ngModel.splice(index, 1);
+        this.model.splice(index, 1);
         this.optionSelected.splice(index, 1);
-        this.onTouched(this.ngModel);
-        this.propagateChange(this.ngModel);
-        this.ngModelChange.emit(this.ngModel);
-        this.change.emit(this.ngModel);
+        this.onTouched(this.model);
+        this.propagateChange(this.model);
+        this.ngModelChange.emit(this.model);
+        this.change.emit(this.model);
 
-        if (this.ngModel.length == 0 && this.required) {
+        if (this.model.length == 0 && this.required) {
             this.error = this.requiredError;
         }
     }
@@ -185,5 +202,32 @@ export class NgbDropdownDomponent implements OnInit, OnChanges, ControlValueAcce
         } else {
             return !!value;
         }
+    }
+
+    private compareObjects(x: object, y: object): boolean {
+        if (typeof(x) !== 'object') {
+            return x == y;
+        }
+        for (let key of Object.keys(x)) {
+            if (y[key] === undefined) {
+                return false;
+            }
+
+            let typeofKeyX = typeof x[key];
+            let typeofKeyY = typeof y[key];
+            if (typeofKeyX != typeofKeyY) {
+                return false;
+            }
+
+            if (typeofKeyX == 'function') {
+                continue;
+            }
+
+            if (!this.compareObjects(x[key], y[key])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
