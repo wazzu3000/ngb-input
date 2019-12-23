@@ -34,8 +34,8 @@ export class NgbFileComponent implements OnInit, ControlValueAccessor, Validator
     public dropMessage = NgbFileComponent._dropMessage;
     public isHover: boolean;
 
-    @ViewChild('inputFile', { static: false })
-    public inputFile: ElementRef<HTMLInputElement>
+    @ViewChild('buttonFileDrop', { static: true })
+    public buttonFileDrop: ElementRef<HTMLButtonElement>
 
     @Output()
     public filesUploadedChange = new EventEmitter<FileList>();
@@ -145,17 +145,14 @@ export class NgbFileComponent implements OnInit, ControlValueAccessor, Validator
         if (this.disabled) {
             return;
         }
+
+        // if (isHover) {
+        //     this.buttonFileDrop.nativeElement.focus();
+        // } else {
+        //     this.buttonFileDrop.nativeElement.blur();
+        // }
         this.isHover = isHover;
     }
-
-    // public onInputFileChange(event: Event) {
-    //     let files: FileList = event.target['files'];
-    //     if (files.length == 0) {
-    //         return;
-    //     }
-
-    //     this.updateModel(files)
-    // }
 
     public writeValue(obj: any): void {
         if (obj) {
