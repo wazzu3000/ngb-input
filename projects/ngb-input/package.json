@@ -1,6 +1,15 @@
 {
   "name": "ngb-input",
-  "version": "0.2-beta",
+  "version": "0.2.0-beta",
+  "homepage": "https://github.com/wazzu3000/ngb-input",
+  "author": {
+    "email": "wazzu_3000@hotmail.com",
+    "name": "Raúl Alexander Mendoza Muñoz"
+  },
+  "bugs": {
+    "url": "https://github.com/wazzu3000/ngb-input/issues",
+    "email": "wazzu_3000@hotmail.com"
+  },
   "peerDependencies": {
     "@angular/common": "^8.0.0",
     "@angular/core": "^8.0.0",
